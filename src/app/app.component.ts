@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {Actions, ofActionDispatched} from '@ngxs/store';
-import {Observable, of} from 'rxjs';
-import {Logout} from './auth/auth.model';
+import {Actions, Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {AuthState} from './auth';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +10,12 @@ import {Logout} from './auth/auth.model';
 })
 export class AppComponent implements OnInit {
 
-  public initialized$: Observable<boolean>;
+  @Select(AuthState.getInitialized)
+  initialized$: Observable<boolean>;
 
-  constructor(private actions: Actions, private router: Router) {
+  constructor(private actions: Actions) {
   }
 
   ngOnInit(): void {
-    this.initialized$ = of(true);
-    // this.actions.pipe(ofActionDispatched(Logout))
-    //   .subscribe(() => this.router.navigate(['/auth/login']));
   }
 }

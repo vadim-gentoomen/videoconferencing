@@ -32,7 +32,7 @@ import {HomeModule} from './home/home.module';
 
     // my modules
     AuthModule,
-    HomeModule,
+    // HomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
 // Actions
 export class CheckSession {
-  static type = '[Auth] CheckSession';
+  static readonly type = '[Auth] CheckSession';
 }
 
 export class Login {
@@ -14,21 +14,24 @@ export class Logout {
   static readonly type = '[Auth] Logout';
 }
 
+export class LogoutSuccess {
+  static readonly type = '[Auth] LogoutSuccess';
+}
 
 // Events
 export class LoginRedirect {
-  static type = '[Auth] LoginRedirect';
+  static readonly type = '[Auth] LoginRedirect';
 }
 
 export class LoginSuccess {
-  static type = '[Auth] LoginSuccess';
+  static readonly type = '[Auth] LoginSuccess';
 
-  constructor(public data: any) {
+  constructor(public token: string) {
   }
 }
 
 export class LoginFailed {
-  static type = '[Auth] LoginFailed';
+  static readonly type = '[Auth] LoginFailed';
 
   constructor(public error: any) {
   }

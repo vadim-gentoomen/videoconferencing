@@ -3,7 +3,7 @@ import {AuthStateModel} from './auth.model';
 import {tap} from 'rxjs/operators';
 import {AuthService} from './auth.service';
 import {Router} from '@angular/router';
-import {Login, LoginRedirect, Logout} from './auth.actions';
+import {Login, LoginFailed, LoginRedirect, LoginSuccess, Logout, LogoutSuccess} from './auth.actions';
 import {Navigate} from '@ngxs/router-plugin';
 
 @State<AuthStateModel>({
@@ -26,6 +26,11 @@ export class AuthState {
   @Selector()
   static isAuthenticated(state: AuthStateModel): boolean {
     return !!state.token;
+  }
+
+  @Selector()
+  static getInitialized(state: AuthStateModel): boolean {
+    return true;
   }
 
   constructor(private authService: AuthService, private router: Router) {
@@ -63,9 +68,30 @@ export class AuthState {
       );
   }
 
+  @Action(LoginSuccess)
+  onLoginSuccess(ctx: StateContext<AuthStateModel>) {
+    console.log('onLoginSuccess, navigating to /home');
+    ctx.dispatch(new Navigate(['/home']));
+  }
+
   @Action(LoginRedirect)
   onLoginRedirect(ctx: StateContext<AuthStateModel>) {
     console.log('onLoginRedirect, navigating to /auth/login');
     ctx.dispatch(new Navigate(['/auth/login']));
+  }
+
+  @Action(LoginSuccess)
+  setUserStateOnSuccess(ctx: StateContext<AuthStateModel>, event: LoginSuccess) {
+    ctx.patchState({
+      token: event.token
+    });
+  }
+
+  @Action([LoginFailed, LogoutSuccess])
+  setUserStateOnFailure(ctx: StateContext<AuthStateModel>) {
+    ctx.patchState({
+      token: undefined
+    });
+    ctx.dispatch(new LoginRedirect());
   }
 }
