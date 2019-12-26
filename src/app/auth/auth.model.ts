@@ -1,6 +1,7 @@
 export class AuthStateModel {
-  token: string | null;
-  username: string | null;
+  token?: string;
+  username?: string;
+  initialized?: boolean;
 }
 
 
