@@ -1,2 +1,5 @@
+<app-header></app-header>
+<app-home></app-home>
 <router-outlet *ngIf="initialized$ | async; else loading"></router-outlet>
 <ng-template #loading>Загрузка...</ng-template>
+<app-footer></app-footer>

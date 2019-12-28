@@ -10,8 +10,12 @@ import {NgxsRouterPluginModule} from '@ngxs/router-plugin';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {AuthState} from './auth/auth.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-import {AuthModule} from './auth/auth.module';
+
 import {HomeModule} from './home/home.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AuthModule} from './auth';
+import {SharedModule} from './shared';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +24,7 @@ import {HomeModule} from './home/home.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
 
     NgxsModule.forRoot([AuthState]),
     NgxsStoragePluginModule.forRoot({
@@ -32,7 +37,8 @@ import {HomeModule} from './home/home.module';
 
     // my modules
     AuthModule,
-    // HomeModule,
+    HomeModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

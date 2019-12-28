@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 
 export const HOME_ROUTES: Routes = [
-  { path: '', component: HomeComponent },
+  {path: '', component: HomeComponent},
 ];
 
 @NgModule({
@@ -12,6 +12,7 @@ export const HOME_ROUTES: Routes = [
     CommonModule,
     RouterModule.forChild(HOME_ROUTES),
   ],
+  exports: [HomeComponent],
   declarations: [HomeComponent]
 })
 export class HomeModule {
