@@ -5,10 +5,11 @@ import {AuthGuard} from './auth.guard';
 import {RouterModule, Routes} from '@angular/router';
 import {NgxsModule} from '@ngxs/store';
 import {AuthState} from './auth.state';
-
+import { RegisterComponent } from './register/register.component';
 
 export const AUTH_ROUTES: Routes = [
   {path: 'auth/login', component: LoginComponent},
+  {path: 'auth/register', component: RegisterComponent},
 ];
 
 @NgModule({
@@ -20,7 +21,7 @@ export const AUTH_ROUTES: Routes = [
   providers: [
     AuthGuard
   ],
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, RegisterComponent],
 })
 export class AuthModule {
 }

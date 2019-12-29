@@ -12,9 +12,10 @@ import {AuthState} from './auth/auth.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 
 import {HomeModule} from './home/home.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthModule} from './auth';
 import {SharedModule} from './shared';
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {SharedModule} from './shared';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    AngularFontAwesomeModule,
 
     NgxsModule.forRoot([AuthState]),
     NgxsStoragePluginModule.forRoot({

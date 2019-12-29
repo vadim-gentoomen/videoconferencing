@@ -4,6 +4,7 @@ import {FooterComponent, HeaderComponent} from './components';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
 
 
 
@@ -17,7 +18,8 @@ import {RouterModule} from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    AngularFontAwesomeModule,
   ],
   exports: [
     FooterComponent,
