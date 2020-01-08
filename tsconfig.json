@@ -17,7 +17,12 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@auth/*": ["src/app/auth/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@environments/*": ["environments/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

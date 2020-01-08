@@ -8,7 +8,7 @@ import {NgxsModule} from '@ngxs/store';
 import {environment} from '../environments/environment';
 import {NgxsRouterPluginModule} from '@ngxs/router-plugin';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
-import {AuthState} from './auth/auth.state';
+import {AuthState} from './auth/store/auth.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 
 import {HomeModule} from './home/home.module';
@@ -16,6 +16,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthModule} from './auth';
 import {SharedModule} from './shared';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {JwtInterceptor} from './_helpers';
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import {AngularFontAwesomeModule} from 'angular-font-awesome';
     HomeModule,
     SharedModule,
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

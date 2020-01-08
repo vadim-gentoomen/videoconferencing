@@ -1,7 +1,7 @@
 import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
 import {AuthStateModel} from './auth.model';
 import {first, tap} from 'rxjs/operators';
-import {AuthService} from './auth.service';
+import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {CheckSession, Login, LoginFailed, LoginRedirect, LoginSuccess, Logout, LogoutSuccess} from './auth.actions';
 import {Navigate} from '@ngxs/router-plugin';

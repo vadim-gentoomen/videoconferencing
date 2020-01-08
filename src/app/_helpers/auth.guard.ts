@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {Store} from '@ngxs/store';
-import {AuthState} from './auth.state';
 import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
-import {LoginRedirect} from './auth.actions';
+import {AuthState, LoginRedirect} from '@auth/store';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
   constructor(private store: Store) {
   }

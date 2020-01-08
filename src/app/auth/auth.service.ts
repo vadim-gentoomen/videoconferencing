@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {AuthStateModel} from './auth.model';
+import {AuthStateModel} from './store';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,3 @@
-export * from './auth.actions';
-export * from './auth.model';
-export * from './auth.state';
+export * from './store';
 export * from './auth.module';
-export * from './auth.guard';
+export * from '../_helpers/auth.guard';
