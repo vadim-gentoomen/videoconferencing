@@ -11,13 +11,12 @@ import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {AuthState} from './auth/store/auth.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 
-import {HomeModule} from './home/home.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthModule} from './auth';
 import {SharedModule} from './shared';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {JwtInterceptor} from './_helpers';
+import {JwtInterceptor} from '@auth/jwt.interceptor';
 
 
 @NgModule({
@@ -32,7 +31,7 @@ import {JwtInterceptor} from './_helpers';
 
     NgxsModule.forRoot([AuthState]),
     NgxsStoragePluginModule.forRoot({
-      key: 'auth.token'
+      key: 'auth'
     }),
     NgxsRouterPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({
@@ -41,7 +40,6 @@ import {JwtInterceptor} from './_helpers';
 
     // my modules
     AuthModule,
-    HomeModule,
     SharedModule,
   ],
   providers: [

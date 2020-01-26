@@ -4,30 +4,30 @@
       <div class="column is-4 is-offset-4">
         <p class="subtitle has-text-grey">Логин</p>
         <div class="box">
-          <form>
+          <form [formGroup]="loginFormGroup">
             <div class="field">
               <div class="control">
-                <input class="input is-medium" type="email" placeholder="Email" autofocus="">
+                <input formControlName="username" class="input is-medium" type="text" placeholder="Логин" autofocus="">
               </div>
             </div>
             <div class="field">
               <div class="control">
-                <input class="input is-medium" type="password" placeholder="Пароль">
+                <input formControlName="password" class="input is-medium" type="password" placeholder="Пароль">
               </div>
             </div>
             <div class="field">
               <label class="checkbox has-text-grey"><input type="checkbox">Запомнить</label>
             </div>
-            <button class="button is-block is-info is-medium is-fullwidth">
+            <button class="button is-block is-info is-medium is-fullwidth" (click)="loginAction()">
               Логин <i class="fa fa-sign-in" aria-hidden="true"></i>
             </button>
           </form>
         </div>
-        <p class="has-text-grey">
-          <a href="auth/register">Регистрация</a> &nbsp;·&nbsp;
-          <a href="../">Забыли пароль?</a> &nbsp;·&nbsp;
-          <a href="../">Помощь</a>
-        </p>
+<!--        <p class="has-text-grey">-->
+<!--          <a href="auth/register">Регистрация</a> &nbsp;·&nbsp;-->
+<!--          <a href="../">Забыли пароль?</a> &nbsp;·&nbsp;-->
+<!--          <a href="../">Помощь</a>-->
+<!--        </p>-->
       </div>
     </div>
   </div>

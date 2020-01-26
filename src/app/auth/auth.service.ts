@@ -1,24 +1,23 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {AuthStateModel} from './store';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+const AUTH_API = 'http://localhost:8080/api/auth/';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
-  login({username, password}): Observable<AuthStateModel> {
-    /*
-      This will pressumably call a http backend and return the response
-      return this.http.post<{{ username: string; email: string }}>(url, { email: email, password: password })
-      .pipe(
-        map(res => res.body)
-      )
-      */
-
-    return of({token: 'some-token', username: 'Some Name'});
+  login({username, password}): Observable<any> { // Observable<AuthStateModel>
+    return this.http.post(AUTH_API + 'signin', {username, password}, httpOptions);
   }
 
   logout(token: string): Observable<null> {

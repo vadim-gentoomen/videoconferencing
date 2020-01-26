@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {AuthState, LoginRedirect} from '@auth/store';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private store: Store) {
   }
@@ -13,13 +13,11 @@ export class AuthGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.store.selectOnce(AuthState.isAuthenticated)
       .pipe(
-        tap(console.log),
         map((isAuth: boolean) => {
           if (!isAuth) {
             this.store.dispatch(new LoginRedirect());
           }
-
-          return true;
+          return isAuth;
         })
       );
   }

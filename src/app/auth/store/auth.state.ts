@@ -1,19 +1,24 @@
 import {Action, NgxsOnInit, Selector, State, StateContext} from '@ngxs/store';
 import {AuthStateModel} from './auth.model';
-import {first, tap} from 'rxjs/operators';
+import {catchError, first, tap} from 'rxjs/operators';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {CheckSession, Login, LoginFailed, LoginRedirect, LoginSuccess, Logout, LogoutSuccess} from './auth.actions';
 import {Navigate} from '@ngxs/router-plugin';
-import {timer} from 'rxjs';
+import {throwError, timer} from 'rxjs';
+
+const authStateDefaults: AuthStateModel = {
+  id: null,
+  username: null,
+  roles: [],
+  accessToken: null,
+  tokenType: null,
+  initialized: false,
+}
 
 @State<AuthStateModel>({
   name: 'auth',
-  defaults: {
-    token: null,
-    username: null,
-    initialized: false
-  }
+  defaults: authStateDefaults
 })
 export class AuthState implements NgxsOnInit {
 
@@ -32,12 +37,12 @@ export class AuthState implements NgxsOnInit {
    */
   @Selector()
   static token(state: AuthStateModel): string | null {
-    return state.token;
+    return state.accessToken;
   }
 
   @Selector()
   static isAuthenticated(state: AuthStateModel): boolean {
-    return !!state.token;
+    return !!state.accessToken;
   }
 
   @Selector()
@@ -61,58 +66,49 @@ export class AuthState implements NgxsOnInit {
   }
 
   @Action(Login)
-  login(ctx: StateContext<AuthStateModel>, action: Login) {
+  login({setState, patchState, dispatch}: StateContext<AuthStateModel>, action: Login) {
     return this.authService.login(action.payload)
       .pipe(
-        tap((result: { token: string }) => {
-          console.log('login');
-          ctx.patchState({
-            token: result.token,
-            username: action.payload.username
+        catchError((err) => {
+          setState(authStateDefaults);
+          dispatch(new LoginFailed(err));
+          return throwError(err);
+        }),
+        tap(({id, roles, accessToken, tokenType}) => {
+          patchState({
+            id, roles, accessToken, tokenType,
+            username: action.payload.username,
           });
+          dispatch(new LoginSuccess());
         })
       );
   }
 
   @Action(Logout)
-  logout(ctx: StateContext<AuthStateModel>) {
-    const state = ctx.getState();
-    return this.authService.logout(state.token)
+  logout({getState, setState}: StateContext<AuthStateModel>) {
+    return this.authService.logout(getState().accessToken)
       .pipe(
         tap(() => {
-          console.log('logout');
-          ctx.setState({
-            token: null,
-            username: null
-          });
+          setState(authStateDefaults);
         })
       );
   }
 
   @Action(LoginSuccess)
-  onLoginSuccess(ctx: StateContext<AuthStateModel>) {
+  onLoginSuccess({dispatch}: StateContext<AuthStateModel>) {
     console.log('onLoginSuccess, navigating to /home');
-    ctx.dispatch(new Navigate(['/home']));
+    dispatch(new Navigate(['/home']));
   }
 
   @Action(LoginRedirect)
-  onLoginRedirect(ctx: StateContext<AuthStateModel>) {
+  onLoginRedirect({dispatch}: StateContext<AuthStateModel>) {
     console.log('onLoginRedirect, navigating to /auth/login');
-    ctx.dispatch(new Navigate(['/auth/login']));
-  }
-
-  @Action(LoginSuccess)
-  setUserStateOnSuccess(ctx: StateContext<AuthStateModel>, event: LoginSuccess) {
-    ctx.patchState({
-      token: event.token
-    });
+    dispatch(new Navigate(['/auth/login']));
   }
 
   @Action([LoginFailed, LogoutSuccess])
-  setUserStateOnFailure(ctx: StateContext<AuthStateModel>) {
-    ctx.patchState({
-      token: undefined
-    });
-    ctx.dispatch(new LoginRedirect());
+  setUserStateOnFailure({setState, dispatch}: StateContext<AuthStateModel>) {
+    setState(authStateDefaults);
+    dispatch(new LoginRedirect());
   }
 }

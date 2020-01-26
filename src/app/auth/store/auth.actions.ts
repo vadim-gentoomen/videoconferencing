@@ -25,9 +25,6 @@ export class LoginRedirect {
 
 export class LoginSuccess {
   static readonly type = '[Auth] LoginSuccess';
-
-  constructor(public token: string) {
-  }
 }
 
 export class LoginFailed {

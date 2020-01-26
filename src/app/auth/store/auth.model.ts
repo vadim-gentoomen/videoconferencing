@@ -1,6 +1,9 @@
 export interface AuthStateModel {
-  token?: string;
+  id?: number;
   username?: string;
+  roles?: string[];
+  accessToken?: string;
+  tokenType?: string;
   initialized?: boolean;
 }
 
