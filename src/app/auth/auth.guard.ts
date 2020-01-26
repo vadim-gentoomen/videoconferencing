@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {AuthState, LoginRedirect} from '@auth/store';
 
 @Injectable()
@@ -14,10 +14,12 @@ export class AuthGuard implements CanActivate {
     return this.store.selectOnce(AuthState.isAuthenticated)
       .pipe(
         map((isAuth: boolean) => {
-          if (!isAuth) {
-            this.store.dispatch(new LoginRedirect());
+          console.log('isAuth ' + isAuth);
+          if (isAuth) {
+            return true;
           }
-          return isAuth;
+          this.store.dispatch(new LoginRedirect());
+          return false;
         })
       );
   }

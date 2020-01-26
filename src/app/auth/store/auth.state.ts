@@ -96,14 +96,14 @@ export class AuthState implements NgxsOnInit {
 
   @Action(LoginSuccess)
   onLoginSuccess({dispatch}: StateContext<AuthStateModel>) {
-    console.log('onLoginSuccess, navigating to /home');
-    dispatch(new Navigate(['/home']));
+    console.log('onLoginSuccess, navigating to /');
+    dispatch(new Navigate(['/']));
   }
 
   @Action(LoginRedirect)
   onLoginRedirect({dispatch}: StateContext<AuthStateModel>) {
-    console.log('onLoginRedirect, navigating to /auth/login');
-    dispatch(new Navigate(['/auth/login']));
+    console.log('onLoginRedirect, navigating to /login');
+    dispatch(new Navigate(['/login']));
   }
 
   @Action([LoginFailed, LogoutSuccess])

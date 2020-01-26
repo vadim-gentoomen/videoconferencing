@@ -1,26 +1,22 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LoginComponent} from './login/login.component';
-import {RouterModule, Routes} from '@angular/router';
-import {NgxsModule} from '@ngxs/store';
-import {AuthGuard} from '@auth/auth.guard';
-import {AuthState} from '@auth/store';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AuthState} from './store';
 
-export const AUTH_ROUTES: Routes = [
-  {path: 'auth/login', component: LoginComponent}
-];
+import {NgxsModule} from '@ngxs/store';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(AUTH_ROUTES),
+    HttpClientModule,
     NgxsModule.forFeature([AuthState]),
   ],
   declarations: [LoginComponent],
-  providers: [AuthGuard],
+  providers: []
 })
 export class AuthModule {
 }

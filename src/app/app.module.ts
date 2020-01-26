@@ -6,23 +6,19 @@ import {AppComponent} from './app.component';
 import {NgxsModule} from '@ngxs/store';
 
 import {environment} from '../environments/environment';
-import {NgxsRouterPluginModule} from '@ngxs/router-plugin';
+import {NgxsRouterPluginModule, RouterStateSerializer} from '@ngxs/router-plugin';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
-import {AuthState} from './auth/store/auth.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AuthModule} from './auth';
 import {SharedModule} from './shared';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {CustomRouterStateSerializer} from './router/custom-router-state-serializer';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {JwtInterceptor} from '@auth/jwt.interceptor';
+import {AuthState, AuthModule, JwtInterceptor, AuthGuard} from '@auth/index';
 
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,7 +27,7 @@ import {JwtInterceptor} from '@auth/jwt.interceptor';
 
     NgxsModule.forRoot([AuthState]),
     NgxsStoragePluginModule.forRoot({
-      key: 'auth'
+      key: ['auth']
     }),
     NgxsRouterPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({
@@ -44,6 +40,8 @@ import {JwtInterceptor} from '@auth/jwt.interceptor';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
+    {provide: AuthGuard, useClass: AuthGuard}
   ],
   bootstrap: [AppComponent]
 })
